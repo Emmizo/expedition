@@ -1,0 +1,66 @@
+.safari-image-container {
+    overflow: hidden;
+    position: relative;
+    padding-top: 66.67%; /* 2:3 aspect ratio */
+}
+
+.safari-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.safari-image:hover {
+    transform: scale(1.05);
+}
+
+/* Hero Carousel Fullscreen Styles */
+.carousel-fullscreen-item {
+    height: 100vh; /* Make item take full viewport height */
+    min-height: 500px; /* Minimum height */
+    position: relative;
+    display: flex;
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+}
+
+.carousel-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    z-index: 1;
+}
+
+.carousel-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 35, 66, 0.6); /* Adjust overlay color/opacity */
+    z-index: 2;
+}
+
+.carousel-content {
+    position: relative; /* Ensure content is above overlay */
+    z-index: 3;
+}
+
+/* Make controls more visible */
+.carousel-control-prev,
+.carousel-control-next {
+    z-index: 10;
+}
+
+.carousel-indicators {
+    z-index: 10;
+}

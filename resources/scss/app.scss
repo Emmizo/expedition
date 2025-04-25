@@ -1,0 +1,85 @@
+// Define Custom Colors (TechVerse Inspired)
+$exp-dark-blue: #0a2342; // Dark blue for backgrounds, primary elements
+$exp-orange: #D97706;    // Orange/Brown accent
+$exp-light-grey: #F8F9FA; // Light background
+$exp-dark-text: #212529; // Standard dark text
+$exp-white: #FFFFFF;
+
+// Override Bootstrap Variables
+$primary: $exp-dark-blue;
+$secondary: $exp-orange;
+$light: $exp-light-grey;
+$dark: $exp-dark-blue; // Use primary blue for dark elements too
+$body-bg: $exp-white;
+$body-color: $exp-dark-text;
+$link-color: $exp-orange; // Use orange for standard links
+$link-hover-color: darken($exp-orange, 10%);
+$headings-color: $primary; // Dark blue headings
+
+// Button overrides
+$btn-primary-bg: $exp-orange;
+$btn-primary-border: $exp-orange;
+$btn-primary-hover-bg: darken($exp-orange, 8%);
+$btn-primary-hover-border: darken($exp-orange, 10%);
+$btn-link-color: $exp-orange; // Link buttons also orange
+$btn-link-hover-color: darken($exp-orange, 10%);
+
+// Navbar customization (using navbar-dark for dark background)
+$navbar-dark-color: rgba($exp-white, 0.75);
+$navbar-dark-hover-color: $exp-white;
+$navbar-dark-active-color: $exp-white;
+$navbar-dark-toggler-border-color: rgba($exp-white, 0.1);
+$nav-link-padding-x: 1rem;
+
+// Footer customization
+$footer-bg: $primary; // Use dark blue
+$footer-color: $navbar-dark-color; // Use lighter text
+
+// Import Bootstrap 5 AFTER variable overrides
+@import 'bootstrap/scss/bootstrap';
+
+// Add any additional custom styles below
+body {
+    // Add a default font similar to the screenshot if needed
+    // font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+// Ensure correct text color on primary buttons
+.btn-primary {
+    color: $exp-white !important; // Force white text
+}
+
+// Specific override for hero button if needed (it used btn-danger before)
+.btn-hero {
+    background-color: $exp-orange;
+    border-color: $exp-orange;
+    color: $exp-white !important;
+    &:hover {
+        background-color: darken($exp-orange, 8%);
+        border-color: darken($exp-orange, 10%);
+    }
+}
+
+// Section background colors
+.bg-section-dark {
+    background-color: $primary;
+    color: $exp-white;
+}
+.bg-section-light {
+    background-color: $light;
+    color: $body-color;
+}
+.bg-section-accent {
+     background-color: $secondary;
+     color: $exp-white;
+}
+
+// Add padding to sections
+.section-padding {
+    padding: 60px 0;
+}

@@ -19,6 +19,7 @@ class Post extends Model
         'body',
         'image_path',
         'published_at',
+        'destination_id',
     ];
 
     /**
@@ -39,5 +40,13 @@ class Post extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the destination associated with the blog post.
+     */
+    public function destination(): BelongsTo
+    {
+        return $this->belongsTo(Destination::class);
     }
 }

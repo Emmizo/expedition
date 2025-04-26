@@ -30,13 +30,8 @@ Route::middleware('web')->group(function () {
     Route::get('/blog', [PostController::class, 'index'])->name('blog.index');
     Route::get('/blog/{post}', [PostController::class, 'show'])->name('blog.show');
 
-    Route::get('/about', function () {
-        return view('about');
-    })->name('about');
-
-    Route::get('/contact', function () {
-        return view('contact');
-    })->name('contact');
+    Route::get('/about', [\App\Http\Controllers\SettingController::class, 'about'])->name('about');
+    Route::get('/contact', [\App\Http\Controllers\SettingController::class, 'contact'])->name('contact');
 
     // Authenticated Routes (already applies 'web' via the outer group, plus 'auth', 'verified')
     Route::middleware(['auth', 'verified'])->group(function () {

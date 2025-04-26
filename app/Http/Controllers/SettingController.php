@@ -26,4 +26,18 @@ class SettingController extends Controller
         $setting->update($data);
         return redirect()->route('settings.index')->with('success', 'Setting updated successfully.');
     }
+
+    public function about()
+    {
+        $about = Setting::where('key', 'about_us')->value('value');
+        return view('about', compact('about'));
+    }
+
+    public function contact()
+    {
+        $contact_email = Setting::where('key', 'contact_email')->value('value');
+        $contact_phone = Setting::where('key', 'contact_phone')->value('value');
+        $contact_address = Setting::where('key', 'contact_address')->value('value');
+        return view('contact', compact('contact_email', 'contact_phone', 'contact_address'));
+    }
 }

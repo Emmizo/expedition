@@ -33,12 +33,15 @@ class HomeController extends Controller
             ->take(3)
             ->get();
 
+        $whyChooseUsItems = \App\Models\WhyChooseUs::all();
+
         return view('welcome', compact(
             'featuredSafaris',
             'sliders',
             'popularDestinations',
             'testimonials',
-            'latestPosts'
+            'latestPosts',
+            'whyChooseUsItems'
         ));
     }
 }

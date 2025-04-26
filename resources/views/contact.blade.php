@@ -11,11 +11,20 @@
                 <h1 class="mb-4 text-center">Get In Touch</h1>
                 <p class="text-center mb-5">Have questions or ready to plan your adventure? Fill out the form below or contact us directly.</p>
 
-                 {{-- Optional: Add contact info like phone/email here --}}
-                 {{-- <div class="text-center mb-5">
-                     <p><strong>Email:</strong> info@expediction.test</p>
-                     <p><strong>Phone:</strong> +1 234 567 890</p>
-                 </div> --}}
+                <div class="text-center mb-5">
+                    @if($contact_email)
+                        <p><strong>Email:</strong> {{ $contact_email }}</p>
+                    @endif
+                    @if($contact_phone)
+                        <p><strong>Phone:</strong> {{ $contact_phone }}</p>
+                    @endif
+                    @if($contact_address)
+                        <p><strong>Address:</strong> {{ $contact_address }}</p>
+                    @endif
+                    @if(!$contact_email && !$contact_phone && !$contact_address)
+                        <p>Contact details coming soon.</p>
+                    @endif
+                </div>
 
                 <div class="card">
                     <div class="card-body">

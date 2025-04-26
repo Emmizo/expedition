@@ -12,15 +12,17 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Scripts & Styles -->
-        @vite(['resources/scss/app.scss', 'resources/js/app.js'])
+        <!-- @vite(['resources/scss/app.scss', 'resources/js/app.js']) -->
 
         <!-- Custom CSS -->
-        <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
+        <!-- <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}"> -->
 
         <!-- Bootstrap 5 CSS CDN -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- Font Awesome CDN -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-papm1Q+..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- Bootstrap Icons CDN -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     </head>
     <body>
         <div id="app">
@@ -184,5 +186,18 @@
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
         <!-- Bootstrap 5 JS Bundle CDN -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof bootstrap !== 'undefined' && bootstrap.Dropdown) {
+                console.log('Bootstrap dropdown is available');
+                var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
+                var dropdownList = dropdownElementList.map(function(element) {
+                    return new bootstrap.Dropdown(element);
+                });
+            } else {
+                console.error('Bootstrap dropdown not available');
+            }
+        });
+        </script>
     </body>
 </html>

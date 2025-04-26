@@ -1,4 +1,6 @@
-@extends('layouts.theme')
+@extends('layouts.guest')
+
+@section('content')
     <h2 class="text-center mb-4">{{ __('Login to Your Account') }}</h2>
 
     {{-- Session Status --}}
@@ -65,4 +67,6 @@
          </div>
 
     </form>
+
+@endsection
 

@@ -1,16 +1,18 @@
-@extends('layouts.theme')
-     <h2 class="text-center mb-4">{{ __('Create Your Account') }}</h2>
+@extends('layouts.guest')
 
-     {{-- Validation Errors --}}
-     @if ($errors->any())
-         <div class="alert alert-danger mb-3" role="alert">
-             <ul class="mb-0">
-                 @foreach ($errors->all() as $error)
-                     <li>{{ $error }}</li>
-                 @endforeach
-             </ul>
-         </div>
-     @endif
+@section('content')
+    <h2 class="text-center mb-4">{{ __('Create Your Account') }}</h2>
+
+    {{-- Validation Errors --}}
+    @if ($errors->any())
+        <div class="alert alert-danger mb-3" role="alert">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     <form method="POST" action="{{ route('register') }}">
         @csrf
@@ -62,4 +64,5 @@
          </div>
 
     </form>
+@endsection
 

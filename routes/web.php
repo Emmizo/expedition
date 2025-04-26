@@ -8,11 +8,15 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 // Admin Controllers Namespace
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\DestinationController;
+use App\Http\Controllers\Admin\DestinationController as AdminDestinationController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\SafariController as AdminSafariController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\TestimonialController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\WhyChooseUsController;
+use App\Models\Post;
+use App\Models\User;
 
 // Define the Home route first, ensuring it's processed before potential redirects
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -37,7 +41,9 @@ Route::middleware('web')->group(function () {
     // Authenticated Routes (already applies 'web' via the outer group, plus 'auth', 'verified')
     Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/dashboard', function () {
-            return view('dashboard');
+            $userCount = User::count();
+            $postCount = Post::count();
+            return view('dashboard', compact('userCount', 'postCount'));
         })
             ->middleware([\Spatie\Permission\Middleware\RoleMiddleware::class . ':admin'])
             ->name('dashboard');
@@ -67,12 +73,19 @@ Route::middleware('web')->group(function () {
 
                 // Content Management Resources
                 Route::resource('sliders', SliderController::class);
-                Route::resource('safaris', AdminSafariController::class);  // Use aliased controller
-                Route::resource('destinations', DestinationController::class);
+                Route::resource('safaris', AdminSafariController::class);
+                Route::resource('destinations', AdminDestinationController::class);
                 Route::resource('testimonials', TestimonialController::class);
                 Route::resource('posts', AdminPostController::class);  // Use aliased controller
             });
         // --- End Admin Routes ---
+
+        Route::get('dashboard', function () {
+            return view('dashboard.index');
+        })->name('dashboard');
+
+        Route::resource('dashboard/why-choose-us', WhyChooseUsController::class)->except(['show']);
+        Route::resource('dashboard/settings', SettingController::class)->only(['index', 'edit', 'update']);
     });
 
     // Include auth routes within the 'web' middleware group

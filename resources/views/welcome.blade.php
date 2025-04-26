@@ -152,7 +152,33 @@
         </section>
 
         {{-- "Why Choose Us?" Section --}}
-        @include('partials.why-choose-us')
+        @php
+            $whyChooseUsItems = \App\Models\WhyChooseUs::all();
+        @endphp
+        <section id="why-choose-us" class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-5 text-dark">Why Choose Us?</h2>
+                <div class="row">
+                    @forelse($whyChooseUsItems as $item)
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100 shadow-sm bg-white border-light text-center">
+                                @if($item->icon)
+                                    <div class="mt-3 mb-2">
+                                        <i class="{{ $item->icon }} fa-2x"></i>
+                                    </div>
+                                @endif
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ $item->title }}</h5>
+                                    <p class="card-text">{{ $item->description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <p class="text-center text-dark opacity-75">No reasons added yet.</p>
+                    @endforelse
+                </div>
+            </div>
+        </section>
 
         {{-- Testimonials Section --}}
         <section class="py-5">
@@ -181,7 +207,62 @@
           </section>
 
          {{-- Contact Section --}}
-         @include('partials.cta-contact')
-    </div>
+         @php
+            $contact_email = \App\Models\Setting::where('key', 'contact_email')->value('value');
+            $contact_phone = \App\Models\Setting::where('key', 'contact_phone')->value('value');
+            $contact_address = \App\Models\Setting::where('key', 'contact_address')->value('value');
+         @endphp
+         <section id="contact" class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-5 text-dark">Contact Us</h2>
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <ul class="list-group">
+                            @if($contact_email)
+                                <li class="list-group-item"><strong>Email:</strong> {{ $contact_email }}</li>
+                            @endif
+                            @if($contact_phone)
+                                <li class="list-group-item"><strong>Phone:</strong> {{ $contact_phone }}</li>
+                            @endif
+                            @if($contact_address)
+                                <li class="list-group-item"><strong>Address:</strong> {{ $contact_address }}</li>
+            @endif
+                    </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- Latest Blog Posts Section --}}
+        <section id="latest-posts" class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-5 text-dark">Latest Blog Posts</h2>
+                <div class="row">
+                    @forelse($latestPosts as $post)
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100 shadow-sm bg-white border-light">
+                                @if($post->image_path)
+                                    <img src="{{ asset('storage/' . $post->image_path) }}" class="card-img-top" alt="{{ $post->title }}" style="height: 200px; object-fit: cover;">
+                                @endif
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">{{ $post->title }}</h5>
+                                    <p class="card-text flex-grow-1">{{ $post->excerpt ?: Str::limit(strip_tags($post->body), 100) }}</p>
+                                    <p class="card-text"><small class="text-muted">By {{ $post->user->name ?? 'N/A' }} | {{ $post->published_at ? $post->published_at->format('M d, Y') : 'Draft' }}</small></p>
+                                    <a href="{{ route('blog.show', $post) }}" class="btn btn-outline-primary mt-auto">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="col-12">
+                            <p class="text-center text-dark opacity-75">No blog posts published yet.</p>
+                        </div>
+                    @endforelse
+                </div>
+                <div class="text-center mt-4">
+                    <a href="{{ route('blog.index') }}" class="btn btn-primary">View All Blog Posts</a>
+                </div>
+            </div>
+        </section>
+        </div>
 
 </x-app-layout>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -13,6 +15,8 @@ class DashboardController extends Controller
      */
     public function index(): View
     {
-        return view('admin.dashboard');
+        $userCount = User::count();
+        $postCount = Post::count();
+        return view('admin.dashboard', compact('userCount', 'postCount'));
     }
 }

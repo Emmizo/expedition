@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Slider extends Model
+class WhyChooseUs extends Model
 {
     use HasFactory;
+
+    protected $table = 'why_choose_us';
 
     protected $fillable = [
         'title',
         'description',
-        'image_path',
-        'button_text',
-        'button_link',
+        'icon',
     ];
 }

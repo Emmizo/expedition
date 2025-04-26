@@ -1,201 +1,150 @@
-<x-app-layout>
-    <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Manage Users') }}
-            </h2>
-            <div>
-                <x-primary-button
-                    x-data=""
-                    x-on:click.prevent="$dispatch('open-modal', 'add-user')"
-                >{{ __('Add User') }}</x-primary-button>
-                <x-primary-button
-                    x-data=""
-                    x-on:click.prevent="$dispatch('open-modal', 'import-user')"
-                >{{ __('Import User') }}</x-primary-button>
-            </div>
+@extends('layouts.app')
+
+@section('content')
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Manage Users</h2>
+        <div>
+            <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#addUserModal">Add User</button>
+            <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#importUserModal">Import Users</button>
         </div>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                        <table class="w-full text-sm text-left rtl:text-right text-gray-500">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">
-                                        Name
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Email
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Roles
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Action
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($users as $user)
-                                    <tr class="bg-white border-b hover:bg-gray-50">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                            {{ $user->name }}
-                                        </th>
-                                        <td class="px-6 py-4">
-                                            {{ $user->email }}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            {{-- Display roles assigned to the user --}}
-                                            {{ $user->getRoleNames()->implode(', ') }}
-                                        </td>
-                                        <td class="px-6 py-4 flex space-x-2">
-                                            {{-- Edit Link/Button --}}
-                                            <a href="" class="font-medium text-blue-600 hover:underline">Edit</a>
-
-                                            {{-- Delete Button/Form --}}
-                                            <form method="POST" action="" onsubmit="return confirm('Are you sure you want to delete this user?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="font-medium text-red-600 hover:underline">Delete</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr class="bg-white border-b">
-                                        <td colspan="4" class="px-6 py-4 text-center text-gray-500">
-                                            No users found.
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                        {{-- Pagination Links --}}
-                        <div class="mt-4">
-                            {{ $users->links() }}
-                        </div>
-                    </div>
                 </div>
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Avatar</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Roles</th>
+                            <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @forelse ($users as $user)
+                            <tr>
+                                <td>
+                                    <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=0D8ABC&color=fff&size=64" class="rounded-circle" width="40" height="40" alt="Avatar">
+                                </td>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>
+                                    @foreach($user->getRoleNames() as $role)
+                                        <span class="badge bg-info text-dark me-1">{{ $role }}</span>
+                                    @endforeach
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                    <form method="POST" action="#" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">No users found.</td>
+                            </tr>
+                        @endforelse
+                        </tbody>
+                    </table>
             </div>
         </div>
     </div>
+    <div class="mt-3">
+        {{ $users->links() }}
+</div>
 
-    {{-- Add User Modal --}}
-    <x-modal name="add-user" focusable>
-        <form method="post" action="" class="p-6">
-            @csrf
-
-            <h2 class="text-lg font-medium text-gray-900">
-                {{ __('Add New User') }}
-            </h2>
-
-            <p class="mt-1 text-sm text-gray-600">
-                {{ __('Enter the details for the new user.') }}
-            </p>
-
-            <div class="mt-6">
-                <x-input-label for="name" value="{{ __('Name') }}" />
-                <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name')" required autofocus />
-                <x-input-error :messages="$errors->userCreation->get('name')" class="mt-2" />
+<!-- Add User Modal -->
+    <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+                <form method="POST" action="#">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addUserModalLabel">Add New User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-
-            <div class="mt-6">
-                <x-input-label for="email" value="{{ __('Email') }}" />
-                <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email')" required />
-                <x-input-error :messages="$errors->userCreation->get('email')" class="mt-2" />
-            </div>
-
-            <div class="mt-6">
-                <x-input-label for="password" value="{{ __('Password') }}" />
-                <x-text-input id="password" name="password" type="password" class="mt-1 block w-full" required />
-                <x-input-error :messages="$errors->userCreation->get('password')" class="mt-2" />
-            </div>
-
-            <div class="mt-6">
-                <x-input-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
-                <x-text-input id="password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full" required />
-                <x-input-error :messages="$errors->userCreation->get('password_confirmation')" class="mt-2" />
-            </div>
-
-            {{-- Add Role Selection --}}
-            <div class="mt-6">
-                <x-input-label for="roles" value="{{ __('Roles') }}" />
-                {{-- Assuming $roles is passed to the view --}}
-                @if(isset($roles) && $roles->count() > 0)
-                    @foreach ($roles as $role)
-                        <div class="flex items-center mt-2">
-                            <input type="checkbox" name="roles[]" id="role_{{ $role->id }}" value="{{ $role->name }}" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
-                            <label for="role_{{ $role->id }}" class="ml-2 block text-sm text-gray-900">{{ $role->name }}</label>
+            <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
                         </div>
-                    @endforeach
-                @else
-                    <p class="text-sm text-gray-500">No roles available.</p>
-                @endif
-                 <x-input-error :messages="$errors->userCreation->get('roles')" class="mt-2" />
-            </div>
-
-            <div class="mt-6 flex justify-end">
-                <x-secondary-button x-on:click="$dispatch('close')">
-                    {{ __('Cancel') }}
-                </x-secondary-button>
-
-                <x-primary-button class="ms-3">
-                    {{ __('Add User') }}
-                </x-primary-button>
-            </div>
-        </form>
-    </x-modal>
-
-    {{-- Import User Modal --}}
-    <x-modal name="import-user" focusable>
-        <form method="post" action="" class="p-6" enctype="multipart/form-data">
-            @csrf
-
-            <h2 class="text-lg font-medium text-gray-900">
-                {{ __('Import Users') }}
-            </h2>
-
-            <p class="mt-1 text-sm text-gray-600">
-                {{ __('Upload a CSV file containing user data (Name, Email, Role). The password will be automatically generated and an email will be sent.') }}
-            </p>
-
-            <div class="mt-6">
-                <x-input-label for="user_import_file" value="{{ __('CSV File') }}" />
-                <input id="user_import_file" name="user_import_file" type="file" class="mt-1 block w-full" required accept=".csv">
-                <x-input-error :messages="$errors->userImport->get('user_import_file')" class="mt-2" />
-            </div>
-
-             {{-- Add Role Selection for Imported Users --}}
-            <div class="mt-6">
-                <x-input-label for="import_roles" value="{{ __('Assign Roles to Imported Users') }}" />
-                {{-- Assuming $roles is passed to the view --}}
-                @if(isset($roles) && $roles->count() > 0)
-                    @foreach ($roles as $role)
-                        <div class="flex items-center mt-2">
-                            <input type="checkbox" name="import_roles[]" id="import_role_{{ $role->id }}" value="{{ $role->name }}" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
-                            <label for="import_role_{{ $role->id }}" class="ml-2 block text-sm text-gray-900">{{ $role->name }}</label>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
                         </div>
-                    @endforeach
-                @else
-                    <p class="text-sm text-gray-500">No roles available.</p>
-                @endif
-                 <x-input-error :messages="$errors->userImport->get('import_roles')" class="mt-2" />
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password_confirmation" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Roles</label><br>
+                            {{-- Loop roles if available --}}
+                            @if(isset($roles) && $roles->count() > 0)
+                                @foreach ($roles as $role)
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="roles[]" id="role_{{ $role->id }}" value="{{ $role->name }}">
+                                        <label class="form-check-label" for="role_{{ $role->id }}">{{ $role->name }}</label>
+                                    </div>
+                                @endforeach
+                            @else
+                                <span class="text-muted">No roles available.</span>
+                            @endif
+                        </div>
+                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add User</button>
             </div>
+                </form>
+        </div>
+    </div>
+</div>
 
-
-            <div class="mt-6 flex justify-end">
-                <x-secondary-button x-on:click="$dispatch('close')">
-                    {{ __('Cancel') }}
-                </x-secondary-button>
-
-                <x-primary-button class="ms-3">
-                    {{ __('Import Users') }}
-                </x-primary-button>
+    <!-- Import Users Modal -->
+    <div class="modal fade" id="importUserModal" tabindex="-1" aria-labelledby="importUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+                <form method="POST" action="#" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="importUserModalLabel">Import Users</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-        </form>
-    </x-modal>
-
-</x-app-layout>
+            <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="user_import_file" class="form-label">CSV File</label>
+                            <input type="file" class="form-control" id="user_import_file" name="user_import_file" required accept=".csv">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Assign Roles to Imported Users</label><br>
+                            @if(isset($roles) && $roles->count() > 0)
+                                @foreach ($roles as $role)
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="import_roles[]" id="import_role_{{ $role->id }}" value="{{ $role->name }}">
+                                        <label class="form-check-label" for="import_role_{{ $role->id }}">{{ $role->name }}</label>
+                                    </div>
+                                @endforeach
+                            @else
+                                <span class="text-muted">No roles available.</span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Import Users</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

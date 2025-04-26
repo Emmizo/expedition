@@ -16,6 +16,11 @@
 
         <!-- Custom CSS -->
         <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
+
+        <!-- Bootstrap 5 CSS CDN -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Font Awesome CDN -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-papm1Q+..." crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
     <body>
         <div id="app">
@@ -112,7 +117,7 @@
                 @endisset
 
                 <!-- Page Content -->
-                {{ $slot }}
+                @yield('content')
             </main>
 
             {{-- New Footer Structure --}}
@@ -175,5 +180,9 @@
             </footer>
 
         </div>
+        <!-- jQuery CDN (if needed for legacy plugins) -->
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+        <!-- Bootstrap 5 JS Bundle CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>

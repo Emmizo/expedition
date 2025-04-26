@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('name');
             $table->string('slug')->unique();  // For URL-friendly identifiers
             $table->text('description')->nullable();
-            $table->foreignId('destination_id')->nullable()->after('id')->constrained('destinations')->onDelete('set null');
+            $table->foreignId('destination_id')->nullable()->constrained('destinations')->onDelete('set null');
             $table->string('image_path')->nullable();  // Path to an image
             // Add other fields as needed (e.g., country, duration, price)
             $table->timestamps();

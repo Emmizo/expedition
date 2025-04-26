@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('destination_id')->nullable()->after('title')->constrained('destinations')->onDelete('set null');
+            $table->foreignId('destination_id')->nullable()->constrained('destinations')->onDelete('set null');
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('excerpt')->nullable();

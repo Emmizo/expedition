@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Destination;  // Import Destination model (Assumption: Exists)
+use App\Models\Post;
 use App\Models\Safari;  // Import Safari model
 use App\Models\Slider;  // Import Slider model (Assumption: Exists)
 use App\Models\Testimonial;  // Import Testimonial model (Assumption: Exists)
@@ -25,11 +26,19 @@ class HomeController extends Controller
         $popularDestinations = Destination::where('is_popular', true)->take(5)->get();  // Example query
         $testimonials = Testimonial::latest()->take(3)->get();  // Example query
 
+        // Fetch latest published posts
+        $latestPosts = Post::whereNotNull('published_at')
+            ->latest('published_at')
+            ->with('user')
+            ->take(3)
+            ->get();
+
         return view('welcome', compact(
             'featuredSafaris',
             'sliders',
             'popularDestinations',
-            'testimonials'
+            'testimonials',
+            'latestPosts'
         ));
     }
 }

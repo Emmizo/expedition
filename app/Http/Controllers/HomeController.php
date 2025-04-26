@@ -34,6 +34,8 @@ class HomeController extends Controller
             ->get();
 
         $whyChooseUsItems = \App\Models\WhyChooseUs::all();
+        $teamMembers = \App\Models\TeamMember::all();
+        $services = \App\Models\Service::all();
 
         return view('welcome', compact(
             'featuredSafaris',
@@ -41,7 +43,9 @@ class HomeController extends Controller
             'popularDestinations',
             'testimonials',
             'latestPosts',
-            'whyChooseUsItems'
+            'whyChooseUsItems',
+            'teamMembers',
+            'services'
         ));
     }
 }

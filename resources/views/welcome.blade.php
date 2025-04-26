@@ -64,6 +64,44 @@
     </div>
 </section>
 
+<!-- Services/Features -->
+@if($services->count())
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Innovative Tech Solutions for Your Business and Personal Growth</h2>
+        <div class="row text-center">
+            @foreach($services as $service)
+                <div class="col-md-4 mb-4">
+                    <div class="mb-3">
+                        @if($service->icon)
+                            <i class="{{ $service->icon }} display-4 text-primary"></i>
+                        @endif
+                    </div>
+                    <h5>{{ $service->title }}</h5>
+                    <p>{{ $service->description }}</p>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+@else
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Innovative Tech Solutions for Your Business and Personal Growth</h2>
+        <p class="text-center text-muted">No services found.</p>
+    </div>
+</section>
+@endif
+
+<!-- Info Bar 2 -->
+<section class="bg-light py-4 border-top border-bottom">
+    <div class="container text-center">
+        <span class="fw-semibold">Tell us more about your needs.</span>
+        <span class="text-muted ms-2">We're here to listen and provide the solutions that address your legal concerns.</span>
+        <a href="#" class="btn btn-primary btn-sm ms-3">Inform us</a>
+    </div>
+</section>
+
 <!-- Why TechVerse -->
 @if($whyChooseUsItems->count())
 <section class="py-5 bg-primary text-white">
@@ -87,15 +125,6 @@
     </div>
 </section>
 @endif
-
-<!-- Info Bar 2 -->
-<section class="bg-light py-4 border-top border-bottom">
-    <div class="container text-center">
-        <span class="fw-semibold">Tell us more about your needs.</span>
-        <span class="text-muted ms-2">We're here to listen and provide the solutions that address your legal concerns.</span>
-        <a href="#" class="btn btn-primary btn-sm ms-3">Inform us</a>
-    </div>
-</section>
 
 <!-- About Us -->
 <section class="py-5">
@@ -144,34 +173,37 @@
 @endif
 
 <!-- Team/Profiles -->
+@if($teamMembers->count())
 <section class="py-5">
     <div class="container">
+        <h2 class="text-center mb-5">Our Team</h2>
         <div class="row justify-content-center">
-            <div class="col-md-5 mb-4 mb-md-0">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body text-center">
-                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Kwizera Emmanuel" class="rounded-circle mb-3" width="100" height="100">
-                        <h5 class="fw-bold mb-1">Kwizera Emmanuel</h5>
-                        <p class="text-muted mb-2">CEO</p>
-                        <p class="mb-2">As it pertains to test-taking, a brain dump (or memory dump) is an effective way to bring information to the forefront of your mind before a test begins.</p>
-                        <a href="#" class="text-primary"><i class="bi bi-linkedin"></i> Visit my LinkedIn profile</a>
+            @foreach($teamMembers as $member)
+                <div class="col-md-5 mb-4 mb-md-0">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <img src="{{ $member->image_path ? asset('storage/' . $member->image_path) : 'https://ui-avatars.com/api/?name=' . urlencode($member->name) . '&background=0D8ABC&color=fff&size=100' }}" alt="{{ $member->name }}" class="rounded-circle mb-3" width="100" height="100">
+                            <h5 class="fw-bold mb-1">{{ $member->name }}</h5>
+                            <p class="text-muted mb-2">{{ $member->title }}</p>
+                            <p class="mb-2">{{ $member->bio }}</p>
+                            @if($member->linkedin_url)
+                                <a href="{{ $member->linkedin_url }}" class="text-primary" target="_blank"><i class="bi bi-linkedin"></i> Visit my LinkedIn profile</a>
+                            @endif
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-5">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body text-center">
-                        <img src="https://randomuser.me/api/portraits/men/33.jpg" alt="Patrick Driver" class="rounded-circle mb-3" width="100" height="100">
-                        <h5 class="fw-bold mb-1">Patrick Driver</h5>
-                        <p class="text-muted mb-2">CTO</p>
-                        <p class="mb-2">As it pertains to test-taking, a brain dump (or memory dump) is an effective way to bring information to the forefront of your mind before a test begins.</p>
-                        <a href="#" class="text-primary"><i class="bi bi-linkedin"></i> Visit my LinkedIn profile</a>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
 </section>
+@else
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Our Team</h2>
+        <p class="text-center text-muted">No team members found.</p>
+    </div>
+</section>
+@endif
 
 <!-- Latest Blog Posts -->
 <section class="py-5">

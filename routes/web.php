@@ -72,6 +72,8 @@ Route::middleware('web')->group(function () {
                 Route::resource('destinations', AdminDestinationController::class);
                 Route::resource('testimonials', TestimonialController::class);
                 Route::resource('posts', AdminPostController::class);  // Use aliased controller
+                Route::resource('team-members', \App\Http\Controllers\Admin\TeamMemberController::class);
+                Route::resource('services', \App\Http\Controllers\Admin\ServiceController::class);
             });
         // --- End Admin Routes ---
 

@@ -114,7 +114,7 @@
                         <div class="card-body">
                             @if($item->icon)
                                 <div class="mb-3"><i class="{{ $item->icon }} fa-2x"></i></div>
-                            @endif
+            @endif
                             <h5 class="card-title">{{ $item->title }}</h5>
                             <p class="card-text">{{ $item->description }}</p>
                         </div>
@@ -215,7 +215,7 @@
                     <div class="card h-100 shadow-sm bg-white border-light">
                         @if($post->image_path)
                             <img src="{{ asset('storage/' . $post->image_path) }}" class="card-img-top" alt="{{ $post->title }}" style="height: 200px; object-fit: cover;">
-                        @endif
+        @endif
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">{{ $post->title }}</h5>
                             <p class="card-text flex-grow-1">{!! $post->excerpt ? nl2br(e($post->excerpt)) : Str::limit(strip_tags($post->body), 100) !!}</p>

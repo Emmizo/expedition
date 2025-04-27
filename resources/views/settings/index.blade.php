@@ -2,7 +2,10 @@
 
 @section('content')
 <div class="container">
-    <h1>Settings</h1>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Settings</h1>
+        <a href="{{ route('settings.create') }}" class="btn btn-primary">Add Setting</a>
+    </div>
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif

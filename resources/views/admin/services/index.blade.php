@@ -24,7 +24,13 @@
                         @forelse($services as $service)
                             <tr>
                                 <td>{{ $service->title }}</td>
-                                <td>@if($service->icon)<i class="{{ $service->icon }}"></i>@endif</td>
+                                <td>
+                                    @if($service->icon_image)
+                                        <img src="{{ asset('storage/' . $service->icon_image) }}" alt="Icon" style="max-width: 40px;">
+                                    @else
+                                        <span class="text-muted">No Icon</span>
+                                    @endif
+                                </td>
                                 <td>
                                     <a href="{{ route('admin.services.edit', $service) }}" class="btn btn-sm btn-warning">Edit</a>
                                     <form action="{{ route('admin.services.destroy', $service) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure?');">

@@ -82,7 +82,7 @@ Route::middleware('web')->group(function () {
         })->name('dashboard');
 
         Route::resource('dashboard/why-choose-us', WhyChooseUsController::class)->except(['show']);
-        Route::resource('dashboard/settings', SettingController::class)->only(['index', 'edit', 'update']);
+        Route::resource('dashboard/settings', SettingController::class)->only(['index', 'edit', 'update', 'create', 'store']);
     });
 
     // Include auth routes within the 'web' middleware group

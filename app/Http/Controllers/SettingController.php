@@ -40,4 +40,19 @@ class SettingController extends Controller
         $contact_address = Setting::where('key', 'contact_address')->value('value');
         return view('contact', compact('contact_email', 'contact_phone', 'contact_address'));
     }
+
+    public function create()
+    {
+        return view('settings.create');
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'key' => 'required|string|unique:settings,key',
+            'value' => 'nullable|string',
+        ]);
+        Setting::create($data);
+        return redirect()->route('settings.index')->with('success', 'Setting added successfully.');
+    }
 }

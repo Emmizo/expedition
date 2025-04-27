@@ -24,8 +24,11 @@ class ServiceController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'icon' => 'nullable|string|max:255',
+            'icon_image' => 'nullable|image|max:2048',
         ]);
+        if ($request->hasFile('icon_image')) {
+            $data['icon_image'] = $request->file('icon_image')->store('services/icons', 'public');
+        }
         Service::create($data);
         return redirect()->route('admin.services.index')->with('success', 'Service created successfully.');
     }
@@ -40,8 +43,11 @@ class ServiceController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'icon' => 'nullable|string|max:255',
+            'icon_image' => 'nullable|image|max:2048',
         ]);
+        if ($request->hasFile('icon_image')) {
+            $data['icon_image'] = $request->file('icon_image')->store('services/icons', 'public');
+        }
         $service->update($data);
         return redirect()->route('admin.services.index')->with('success', 'Service updated successfully.');
     }

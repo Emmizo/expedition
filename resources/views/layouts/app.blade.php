@@ -23,12 +23,14 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- Bootstrap Icons CDN -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+        <!-- Brand Colors and Custom UI -->
+        <link rel="stylesheet" href="{{ asset('assets/css/brand.css') }}">
     </head>
     <body>
         <div id="app">
-            <nav class="navbar navbar-expand-md navbar-light shadow-sm" style="background-color: #C4D1D4;">
+            <nav class="navbar navbar-expand-md navbar-light shadow-sm bg-brand text-white">
                 <div class="container">
-                    <a class="navbar-brand" href="{{ url('/') }}">
+                    <a class="navbar-brand text-white" href="{{ url('/') }}">
                         <img src="{{ asset('images/logo.png') }}" alt="{{ config('app.name', 'Laravel') }} Logo" style="height: 40px;">
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -108,7 +110,7 @@
             </nav>
 
             {{-- Apply custom background color to MAIN element --}}
-            <main class="py-4" style="background-color: #C4D1D4;">
+            <main class="py-4 bg-white">
                 <!-- Page Heading -->
                 @isset($header)
                     <header class="bg-white shadow-sm mb-4">
@@ -123,7 +125,7 @@
             </main>
 
             {{-- New Footer Structure --}}
-            <footer class="py-5 mt-auto bg-primary text-light">
+            <footer class="py-5 mt-auto bg-brand text-white">
                 <div class="container">
                     <div class="row">
                         {{-- Logo Column --}}
